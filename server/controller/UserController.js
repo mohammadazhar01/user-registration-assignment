@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import otpStore from "../middleware/otpStore.js";
 import nodemailer from 'nodemailer';
 
-// /api/user/register   -   Register as User
+// /api/user/register   -   Register as User-
 export const registerUser = async (req, res)=>{
     try {
         console.log(req.body)
