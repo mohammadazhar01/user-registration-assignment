@@ -8,7 +8,7 @@ import userRouter from './route/userRoutes.js';
 
 const app = express()
 const port = process.env.PORT || 4000;
-const allowedOrigins = ['http://localhost:5173', process.env.FRONTEND_URL].filter(Boolean)
+const allowedOrigins = ['http://localhost:5173', process.env.FRONTEND_URL, 'https://user-registration-assignment.vercel.app']
 
 await connectDB()
 
