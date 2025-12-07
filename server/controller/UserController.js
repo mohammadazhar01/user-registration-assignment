@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import otpStore from "../middleware/otpStore.js";
 import nodemailer from 'nodemailer';
 import axios from 'axios'
-import { Resend } from "resend";
 
 // /api/user/register   -   Register as User-
 export const registerUser = async (req, res) => {
@@ -25,28 +24,11 @@ export const registerUser = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
 
-    otpStore[email] = { otp, expiresAt };
+        otpStore[email] = { otp, expiresAt };
+        try{
+         
+          await axios.post(process.env.N8N_URL,{email, otp})
 
-        const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",
-            port: 587,
-            secure:false,
-            auth: {
-              user: process.env.BREVO_USER,
-              pass: process.env.BREVO_API_KEY
-            }
-          });
-
-          console.log(email)
-      
-        try {
-          await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Your email verification',
-            text: `Your OTP for is ${otp}. It is valid for 5 minutes.`,
-          });
-      
           res.json({ success:true, message: 'OTP sent to email.' });
         } catch (err) {
           console.error(err);
@@ -89,6 +71,15 @@ export const verifyOtp = async (req, res) => {
                 sameSite: "none",
                 maxAge: 2 * 24 * 60 * 60 * 1000, 
             })
+
+            if(user) {
+              try {
+                await axios.post(process.env.N8N_Register_URL, {name, email}) 
+              } catch(err){
+                console.log("error:"+ err)
+              }    
+            }
+
             delete otpStore[email];
     
             return res.json({success: true, user: {email: user.email, name: user.name}})

@@ -170,6 +170,10 @@ body {
   transition: backround-color .3s ease;
 }
 
+.sending-otp {
+  background-color: #5f6368;
+}
+
 .form-btn-smbt:hover {
   background-color: var(--color-primary-hover);
 }

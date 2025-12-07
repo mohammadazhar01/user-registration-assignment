@@ -119,7 +119,7 @@ const SignUp = ({setUser}) => {
                         </div>
                         <p>{errors.passwordErr}</p>
 
-                        <button type="submit" onClick={(e)=> onSubmitHandler(e)} className="form-btn form-btn-smbt">{sedingOtp ? "Seding OTP" : "Sign Up"}</button>
+                        <button type="submit" onClick={(e)=> onSubmitHandler(e)} className="form-btn form-btn-smbt">{sedingOtp ? "Seding OTP..." : "Sign Up"}</button>
 
                     </form>
                     

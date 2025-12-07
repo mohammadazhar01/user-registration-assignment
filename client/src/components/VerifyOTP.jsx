@@ -27,6 +27,7 @@ const VerifyOTP = ({ setUser, name, email, password }) => {
         setUser(data.user);
         navigate('/dashboard')
         toast.success("Login Successful");
+        setTimeout(()=> toast.success("Confirmation mail is sent. and Your data is stored in sheet"),1000)
       } else {
         console.log(data.message);
       }
@@ -61,12 +62,12 @@ const VerifyOTP = ({ setUser, name, email, password }) => {
         <div className="form-header">
              <span 
               onClick={() => navigate("/")}
-              style={{ cursor: "pointer", color: "  #4b6bfb",fontWeight: "500"}}>
+              style={{ cursor: "pointer", color: " #4b6bfb",fontWeight: "500"}}>
                <FaArrowLeft />Back
              </span>
              <div className="flex-between" style={{ display: "flex", justifyContent: "space-between" }}>
             
-            <p>Please enter the OTP sent to your email</p>
+            <p>Please enter the OTP sent to your email <span style={{color: "#4b6bfb"}}>"{email}"</span></p>
           </div>
 
           <h1>Verify OTP</h1>
