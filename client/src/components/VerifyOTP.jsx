@@ -60,7 +60,7 @@ const VerifyOTP = ({ setUser, name, email, password }) => {
 
         <div className="form-header">
              <span 
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/")}
               style={{ cursor: "pointer", color: "  #4b6bfb",fontWeight: "500"}}>
                <FaArrowLeft />Back
              </span>

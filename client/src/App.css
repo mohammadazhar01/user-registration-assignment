@@ -369,7 +369,7 @@ body {
   object-fit: contain; 
 }
 
-/* RIGHT CONTENT */
+
 .landing-right {
   flex: 1;
   display: flex;
@@ -387,7 +387,7 @@ body {
   color: #555;
 }
 
-/* BUTTONS */
+
 .lp-btn {
   width: 200px;
   height: 48px;

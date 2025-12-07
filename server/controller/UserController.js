@@ -3,45 +3,48 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import otpStore from "../middleware/otpStore.js";
 import nodemailer from 'nodemailer';
+import axios from 'axios'
+import { Resend } from "resend";
 
 // /api/user/register   -   Register as User-
-export const registerUser = async (req, res)=>{
-    try {
-        console.log(req.body)
-        const { name, email, password } = req.body;
-    
+export const registerUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-        if(!name || !email || !password){
-            return res.json({success: false, message: 'Missing Details'})
-        }
+    if (!name || !email || !password) {
+      return res.json({ success: false, message: 'Missing Details' });
+    }
 
-        const existingUser = await User.findOne({email})
+    const existingUser = await User.findOne({ email });
 
-        if(existingUser)
-            return res.json({success: false, message: 'User already exists'})
+    if (existingUser) {
+      return res.json({ success: false, message: 'User already exists' });
+    }
 
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
 
-        const expiresAt = Date.now() + 5 * 60 * 1000;
-      
-        otpStore[email] = { otp, expiresAt };
+    otpStore[email] = { otp, expiresAt };
 
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtp-relay.brevo.com",
             port: 587,
-            secure: false,
+            secure:false,
             auth: {
-              user: process.env.EMAIL_USER,
-              pass: process.env.EMAIL_PASS
+              user: process.env.BREVO_USER,
+              pass: process.env.BREVO_API_KEY
             }
           });
+
+          console.log(email)
       
         try {
           await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Your email verification',
-            text: `Your OTP is ${otp}. It is valid for 5 minutes.`,
+            text: `Your OTP for is ${otp}. It is valid for 5 minutes.`,
           });
       
           res.json({ success:true, message: 'OTP sent to email.' });
@@ -49,12 +52,10 @@ export const registerUser = async (req, res)=>{
           console.error(err);
           res.status(500).json({ message: 'Failed to send OTP' });
         }
-
-    } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message });
+    }catch(err) {
+        console.log(err.message)
     }
-}
+  }
 
 // /api/user/verify-otp     -   verify-user
 export const verifyOtp = async (req, res) => {
@@ -139,17 +140,21 @@ export const login = async (req, res)=>{
 
 
 // /api/user/is-auth -    To authorize the user
-export const isAuth = async (req, res)=>{
-    try {
-        const { userId } = req.body;
-        const user = await User.findById(userId).select("-password")
-        return res.json({success: true, user})
+export const isAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    console.log(user)
 
-    } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message });
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
     }
-}
+
+    return res.json({ success: true, user });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 // /api/user/logout    -  To logout User
 

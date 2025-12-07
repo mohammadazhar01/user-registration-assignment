@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 const SignUp = ({setUser}) => {
     const [viewPass, setViewPass] = useState(false)
     const [sentOtp, setOtpSent] = useState(false)
+    const [sedingOtp, setSendingOtp] = useState(false)
 
     const [formData, setFormData] = useState({
         fullName:"",
@@ -57,16 +58,17 @@ const SignUp = ({setUser}) => {
             const password = formData.password;
           
             if(validate()){
+                setSendingOtp(true)
                 const {data} = await axios.post(`/api/user/register`,{name,email,password});
-                console.log(data)
-                        if (data.success){
-
-                            setOtpSent(true)
-                        }else {
-                            toast.error(data.message)
-                        }
-                console.log("Registration succesfull");
-        }
+                
+                if (data.success)
+                {
+                     
+                    setOtpSent(true)
+                } else {
+                        toast.error(data.message)
+                }
+            }
         } catch (error) {
             console.log(error.message)
         }
@@ -76,10 +78,6 @@ const SignUp = ({setUser}) => {
     const onChangeHandler = (e) => {
         setFormData({...formData, [e.target.name]:e.target.value})
     }
-
-
-
-
 
 
     return(
@@ -121,7 +119,7 @@ const SignUp = ({setUser}) => {
                         </div>
                         <p>{errors.passwordErr}</p>
 
-                        <button type="submit" onClick={(e)=> onSubmitHandler(e)} className="form-btn form-btn-smbt">Sign In</button>
+                        <button type="submit" onClick={(e)=> onSubmitHandler(e)} className="form-btn form-btn-smbt">{sedingOtp ? "Seding OTP" : "Sign Up"}</button>
 
                     </form>
                     
