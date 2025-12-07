@@ -4,6 +4,9 @@ A full‑stack user registration application with a user-friendly responsive UI,
 
 ---
 
+## Live URL
+https://user-registration-assignment.vercel.app/
+
 ## ✨ Key Features
 
 * **User‑friendly, responsive UI** (mobile + desktop)
@@ -77,7 +80,21 @@ VITE_BACKEND_URL = http://localhost:your_running_port
 
 ## Screenshots
 
-*Add screenshots of the registration form, OTP modal, and dashboard here to help users understand the app.*
+### Landing page
+<img width="1914" height="965" alt="Landing-page" src="https://github.com/user-attachments/assets/4b7abd69-9c20-4fe6-b17d-f5af760a15c4" />
+
+### Login page
+<img width="1917" height="965" alt="Login-page" src="https://github.com/user-attachments/assets/9897136e-3345-46a3-846c-2ffec6f0c131" />
+
+### Signup page
+<img width="1920" height="966" alt="Signup-page" src="https://github.com/user-attachments/assets/e1256bde-f3e3-4210-b1f5-6b8ce1d045f5" />
+
+### OTP varification page
+<img width="1920" height="958" alt="OTP-verificaion-page" src="https://github.com/user-attachments/assets/c3434618-674b-40e1-b93f-6129c2537a1b" />
+
+### Dashboard Page
+<img width="1912" height="966" alt="Dashboard-page" src="https://github.com/user-attachments/assets/0665bfdb-e212-481b-9058-69d83c2f3fe9" />
+
 
 ---
 
@@ -112,8 +129,6 @@ npm install
 # create .env and add the required variables
 npm start
 ```
-
-Open the frontend (usually `http://localhost:3000`) and test registration flows.
 
 ---
 
